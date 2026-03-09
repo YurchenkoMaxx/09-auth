@@ -7,14 +7,15 @@
   color: white;
 }
 
-.header a {
+.header > a {
   text-decoration: none;
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
-.header a:hover {
+.header > a:hover {
   color: #ddd;
 }
 
@@ -23,7 +24,14 @@
   margin: 0;
   padding: 0;
   display: flex;
+  align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.navigation li {
+  display: flex;
+  align-items: center;
 }
 
 .navigation li a {
