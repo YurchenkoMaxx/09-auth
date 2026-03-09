@@ -6,16 +6,18 @@ import Image from "next/image";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import type { User } from "@/types/user";
 import css from "./EditProfilePage.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function EditProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const setUser = useAuthStore((state) => state.setUser);
+  const [user, setUserState] = useState<User | null>(null);
   const [username, setUsername] = useState("");
   useEffect(() => {
     async function loadUser() {
       try {
         const data = await getMe();
-        setUser(data);
+        setUserState(data);
         setUsername(data.username);
       } catch (error) {
         console.error(error);
@@ -25,15 +27,16 @@ export default function EditProfilePage() {
     loadUser();
   }, []);
   const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    try {
-      await updateMe({ username });
-      router.push("/profile");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  try {
+    const updatedUser = await updateMe({ username });
+    setUser(updatedUser);
+    router.push("/profile");
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>

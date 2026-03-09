@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { cookies } from "next/headers";
 import type { User } from "@/types/user";
 import type { Note } from "@/types/note";
@@ -53,7 +53,7 @@ export async function getMe(): Promise<User> {
 
   return response.data;
 }
-export async function checkSession(): Promise<User | null> {
+export async function checkSession(): Promise<AxiosResponse<User | null>> {
   const cookie = await getCookieHeader();
 
   const response = await serverApi.get<User | null>("/auth/session", {
@@ -62,5 +62,5 @@ export async function checkSession(): Promise<User | null> {
     },
   });
 
-  return response.data;
+  return response;
 }
