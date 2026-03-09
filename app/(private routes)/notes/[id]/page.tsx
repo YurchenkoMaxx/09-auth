@@ -5,7 +5,10 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL = "https://08-zustand-omega-woad.vercel.app/"; 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:3000";
 
 type PageProps = {
   params: { id: string };
@@ -16,11 +19,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const note = await fetchNoteById(id);
 
-
   if (!note) {
-    const title = `Note not found | NoteHub`;
-    const description = `This note does not exist.`;
-
+    const title = "Note not found | NoteHub";
+    const description = "This note does not exist.";
     const url = `${SITE_URL}/notes/${id}`;
 
     return {
@@ -31,14 +32,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description,
         url,
         images: [
-          { url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg" },
+          {
+            url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          },
         ],
       },
     };
   }
 
   const title = `${note.title} | NoteHub`;
-  const description = note.content ? note.content.slice(0, 150) : "Note details in NoteHub.";
+  const description = note.content;
   const url = `${SITE_URL}/notes/${id}`;
 
   return {
@@ -49,14 +52,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url,
       images: [
-        { url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg" },
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        },
       ],
     },
   };
 }
 
-export default async function NoteDetailsPage({ params }: PageProps) {
-  const id = params.id;
+export default async function NotePage({ params }: PageProps) {
+  const { id } = params;
 
   const queryClient = new QueryClient();
 

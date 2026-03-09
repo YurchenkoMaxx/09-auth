@@ -2,7 +2,10 @@ import css from "./HomePage.module.css";
 import { Metadata } from "next";
 
 const APP_NAME = "NoteHub";
-const SITE_URL = "https://notehub.example"; // <-- той самий URL
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:3000";
 const PAGE_URL = `${SITE_URL}/not-found`;
 
 export const metadata: Metadata = {

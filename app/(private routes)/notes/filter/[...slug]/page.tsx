@@ -10,7 +10,7 @@ export const revalidate = 0;
 const TAGS: NoteTag[] = ["Todo", "Work", "Personal", "Meeting", "Shopping"];
 const PER_PAGE = 12;
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 const OG_IMAGE = "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg";
 
 type PageProps = {
